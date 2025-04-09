@@ -41,21 +41,25 @@ const hamburguesas = [
   const contenedor = document.querySelector(".container-items");
   contenedor.innerHTML = ""; // Limpiar el contenedor antes de renderizar
   
+  let itemsHTML = ''; // Variable para almacenar el HTML de los productos
+  
   hamburguesas.forEach((producto) => {
-	const item = document.createElement("div");
-	item.classList.add("item");
-	item.innerHTML = `
-	  <figure>
-		<img src="${producto.img}" alt="${producto.name}" />
-	  </figure>
-	  <div class="info-product">
-		<h2>${producto.name}</h2>
-		<p class="price">$${producto.price}</p>
-		<button class="btn-add-cart" data-id="${producto.id}">Añadir al carrito</button>
+	itemsHTML += `
+	  <div class="item">
+		<figure>
+		  <img src="${producto.img}" alt="${producto.name}" />
+		</figure>
+		<div class="info-product">
+		  <h2>${producto.name}</h2>
+		  <p class="price">$${producto.price}</p>
+		  <button class="btn-add-cart" data-id="${producto.id}">Añadir al carrito</button>
+		</div>
 	  </div>
 	`;
-	contenedor.appendChild(item);
   });
+  
+  // Insertamos todos los productos en el contenedor de una sola vez
+  contenedor.innerHTML = itemsHTML;
   
   // --- CARRITO ---
   const btnCart = document.querySelector('.container-cart-icon');
@@ -158,23 +162,21 @@ const hamburguesas = [
 			stroke="currentColor"
 			class="icon-close"
 		  >
-			<path
-			  stroke-linecap="round"
-			  stroke-linejoin="round"
-			  d="M6 18L18 6M6 6l12 12"
-			/>
+			<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 		  </svg>
 		</div>
 	  `;
-  
-	  rowProduct.innerHTML = containerProduct;
   
 	  total += product.quantity * parseFloat(product.price.slice(1)); // Convierte el precio en número
 	  totalOfProducts += product.quantity;
 	});
   
+	// Actualizamos el HTML de los productos en el carrito
+	rowProduct.innerHTML = containerProduct;
+  
 	valorTotal.innerText = `$${total}`;
 	countProducts.innerText = totalOfProducts;
+  
 	readAllProduct();
   }
   
